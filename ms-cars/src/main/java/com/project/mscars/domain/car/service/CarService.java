@@ -3,6 +3,7 @@ package com.project.mscars.domain.car.service;
 import com.project.mscars.domain.car.dtos.CarRequestDTO;
 import com.project.mscars.domain.car.dtos.CarResponseDTO;
 import com.project.mscars.domain.car.dtos.PilotResponseDTO;
+import com.project.mscars.domain.car.exceptions.CarNotFoundException;
 import com.project.mscars.domain.car.model.Car;
 import com.project.mscars.domain.car.model.Pilot;
 import com.project.mscars.domain.car.repository.CarRepository;
@@ -51,5 +52,22 @@ public class CarService {
         return classrooms.stream()
                 .map(this::mapCarToResponseDTO)
                 .collect(Collectors.toList());
+    }
+    public CarResponseDTO updateCar(Long idCar, CarRequestDTO requestDTO) throws CarNotFoundException {
+        Car car = carRepository.findById(idCar)
+                .orElseThrow(() -> new CarNotFoundException("Coordinator not found with this id"));
+
+        car.setBrand(requestDTO.getBrand());
+        car.setModel(requestDTO.getModel());
+        car.setYear(requestDTO.getYear());
+
+        carRepository.save(car);
+        return mapCarToResponseDTO(car);
+    }
+    public void deleteCar(Long idCar) throws CarNotFoundException {
+        Car car = carRepository.findById(idCar)
+                .orElseThrow(() -> new CarNotFoundException("Car not found with this id"));
+
+        carRepository.delete(car);
     }
 }
