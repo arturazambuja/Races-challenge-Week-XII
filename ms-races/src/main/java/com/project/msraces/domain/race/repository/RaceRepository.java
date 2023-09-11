@@ -1,4 +1,7 @@
 package com.project.msraces.domain.race.repository;
 
-public interface RaceRepository {
+import com.project.msraces.domain.race.model.Race;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RaceRepository extends JpaRepository<Race, Long> {
 }
