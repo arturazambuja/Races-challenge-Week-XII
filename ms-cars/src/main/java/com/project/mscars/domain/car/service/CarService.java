@@ -2,7 +2,6 @@ package com.project.mscars.domain.car.service;
 
 import com.project.mscars.domain.car.dtos.CarRequestDTO;
 import com.project.mscars.domain.car.dtos.CarResponseDTO;
-import com.project.mscars.domain.car.dtos.PilotResponseDTO;
 import com.project.mscars.domain.car.exceptions.CarNotFoundException;
 import com.project.mscars.domain.car.model.Car;
 import com.project.mscars.domain.car.model.Pilot;
@@ -44,8 +43,9 @@ public class CarService {
         }
 
         car = carRepository.save(car);
+        CarResponseDTO carResponseDTO = modelMapper.map(car, CarResponseDTO.class);
 
-        return modelMapper.map(car, CarResponseDTO.class);
+        return carResponseDTO;
     }
     public List<CarResponseDTO> getAllCars() {
         List<Car> classrooms = carRepository.findAll();
