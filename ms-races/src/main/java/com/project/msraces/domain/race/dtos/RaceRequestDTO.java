@@ -10,5 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RaceRequestDTO {
+    private String name;
+    private String result;
     private Track track;
 }

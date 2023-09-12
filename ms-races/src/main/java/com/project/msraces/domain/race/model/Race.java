@@ -17,6 +17,8 @@ public class Race {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_race")
     private long idRace;
+    @Column(name = "name")
+    private String name;
     @Column(name = "result")
     private String result;
     @OneToOne
