@@ -29,4 +29,12 @@ public class TrackController {
     public TrackResponseDTO createTrack(@RequestBody TrackRequestDTO requestDTO) {
         return trackService.createTrack(requestDTO);
     }
+    @PutMapping("/{idTrack}")
+    public TrackResponseDTO updateTrack(@PathVariable Long idTrack, @RequestBody TrackRequestDTO requestDTO) throws TrackNotFoundException {
+        return trackService.updateTrack(idTrack, requestDTO);
+    }
+    @DeleteMapping("/{idTrack}")
+    public void deleteTrack(@PathVariable Long idTrack) throws TrackNotFoundException {
+        trackService.deleteTrack(idTrack);
+    }
 }

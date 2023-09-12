@@ -45,4 +45,21 @@ public class TrackService {
                 .orElseThrow(() -> new TrackNotFoundException("Track not found with this id"));
         return convertTrackToResponseDTO(track);
     }
+    public TrackResponseDTO updateTrack(Long idTrack, TrackRequestDTO requestDTO) throws TrackNotFoundException {
+        Track track = trackRepository.findById(idTrack)
+                .orElseThrow(() -> new TrackNotFoundException("Track not found with this id"));
+
+        track.setName(requestDTO.getName());
+        track.setCountry(requestDTO.getCountry());
+        track.setDate(requestDTO.getDate());
+
+        trackRepository.save(track);
+        return convertTrackToResponseDTO(track);
+    }
+    public void deleteTrack(Long idTrack) throws TrackNotFoundException {
+        Track track = trackRepository.findById(idTrack)
+                .orElseThrow(() -> new TrackNotFoundException("Track not found with this id"));
+
+        trackRepository.delete(track);
+    }
 }
