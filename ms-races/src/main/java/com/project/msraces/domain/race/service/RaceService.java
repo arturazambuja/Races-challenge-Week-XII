@@ -1,13 +1,12 @@
 package com.project.msraces.domain.race.service;
 
+import com.project.mscars.domain.car.model.Car;
+import com.project.msraces.config.CarFeignClient;
 import com.project.msraces.domain.race.dtos.RaceRequestDTO;
 import com.project.msraces.domain.race.dtos.RaceResponseDTO;
 import com.project.msraces.domain.race.exceptions.RaceNotFoundException;
 import com.project.msraces.domain.race.model.Race;
 import com.project.msraces.domain.race.repository.RaceRepository;
-import com.project.msraces.domain.track.dtos.TrackResponseDTO;
-import com.project.msraces.domain.track.model.Track;
-import com.project.msraces.domain.track.repository.TrackRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +17,7 @@ import java.util.stream.Collectors;
 public class RaceService {
     private final ModelMapper modelMapper;
     private final RaceRepository raceRepository;
+    private CarFeignClient carFeignClient;
     public RaceService(ModelMapper modelMapper,RaceRepository raceRepository) {
         this.modelMapper = modelMapper;
         this.raceRepository = raceRepository;
@@ -45,4 +45,28 @@ public class RaceService {
                 .orElseThrow(() -> new RaceNotFoundException("Race not found with this id"));
         return convertRaceToResponseDTO(race);
     }
+    public RaceResponseDTO updateRace(Long idRace, RaceRequestDTO requestDTO) throws RaceNotFoundException {
+        Race race = raceRepository.findById(idRace)
+                .orElseThrow(() -> new RaceNotFoundException("Race not found with this id"));
+
+        race.setName(requestDTO.getName());
+
+        raceRepository.save(race);
+        return convertRaceToResponseDTO(race);
+    }
+    public void deleteRace(Long idCRace) throws RaceNotFoundException {
+        Race race = raceRepository.findById(idCRace)
+                .orElseThrow(() -> new RaceNotFoundException("Race not found with this id"));
+
+        raceRepository.delete(race);
+    }
+    public RaceResponseDTO addCarsToRace(Long raceId, List<Car> cars) throws RaceNotFoundException {
+
+        Race race = raceRepository.findById(raceId)
+                .orElseThrow(() -> new RaceNotFoundException("Race not found with ID: " + raceId));
+
+        race.getCars().addAll(cars);
+        return convertRaceToResponseDTO(raceRepository.save(race));
+    }
+
 }
