@@ -23,8 +23,8 @@ public class Race {
     private long idRace;
     @Column(name = "name")
     private String name;
-    @Column(name = "result")
-    private String result;
+    @OneToMany
+    private List<RaceResult> result;
     @Transient
     @ManyToMany(mappedBy = "races")
     private List<Car> cars;
