@@ -20,17 +20,17 @@ public class HistoryService {
         this.modelMapper = modelMapper;
     }
 
-    public HistoryResponseDTO convertHistoryToResponseDTO(Long history) {
+    public HistoryResponseDTO convertHistoryToResponseDTO(History history) {
         return modelMapper.map(history, HistoryResponseDTO.class);
     }
     public List<HistoryResponseDTO> getAllHistory() {
-        List<Long> history = historyRepository.findAll();
+        List<History> history = historyRepository.findAll();
         return history.stream()
                 .map(this::convertHistoryToResponseDTO)
                 .collect(Collectors.toList());
     }
-    public HistoryResponseDTO getHistoryById(History idHistory) throws HistoryNotFoundException {
-        Long history = historyRepository.findById(idHistory)
+    public HistoryResponseDTO getHistoryById(Long idHistory) throws HistoryNotFoundException {
+        History history = historyRepository.findById(idHistory)
                 .orElseThrow(() -> new HistoryNotFoundException("History not found with this id"));
         return convertHistoryToResponseDTO(history);
     }

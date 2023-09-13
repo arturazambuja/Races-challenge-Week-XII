@@ -26,7 +26,7 @@ public class HistoryController {
         return historyService.getAllHistory();
     }
     @GetMapping("/{idHistory}")
-    public HistoryResponseDTO getHistoryById(@PathVariable History idHistory) throws HistoryNotFoundException {
+    public HistoryResponseDTO getHistoryById(@PathVariable Long idHistory) throws HistoryNotFoundException {
         return historyService.getHistoryById(idHistory);
     }
 }
